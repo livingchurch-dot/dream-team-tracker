@@ -18,10 +18,10 @@ body{font-family:Arial,sans-serif;background:#f2f2f2;color:#222}
 .mbtn{flex-shrink:0;padding:9px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.6);border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
 .mbtn.active{color:#fff;border-bottom-color:#E67E22}
 .name-wrap{background:#fff;border-bottom:1px solid #eee}
-.name-bar{background:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px;max-width:620px;margin:0 auto;width:100%}
+.name-bar{background:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px;max-width:640px;margin:0 auto;width:100%}
 .name-bar label{font-size:12px;color:#666;font-weight:600;white-space:nowrap}
 .name-bar input{flex:1;padding:7px 10px;border:1.5px solid #E67E22;border-radius:6px;font-size:13px}
-.teams{padding:10px 12px;max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.teams{padding:10px 12px;max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
 .tcard{border-radius:8px;overflow:hidden;border:1px solid #ddd;background:#fff}
 .thead{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none}
 .tname{font-size:13px;font-weight:700}
@@ -34,16 +34,22 @@ body{font-family:Arial,sans-serif;background:#f2f2f2;color:#222}
 .lbadge{background:#E67E22;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
 .plist{padding:8px 12px;display:flex;flex-direction:column;gap:4px}
 .pitem{border-radius:6px;border:1px solid #eee;overflow:hidden}
-.prow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;cursor:pointer;background:#fff;transition:background .15s}
+.prow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;cursor:pointer;background:#fff;transition:background .15s;gap:8px}
 .prow:hover{background:#fff8f5}
 .prow.sel{background:#fff3e8}
 .prow.done{background:#f0faf3}
+.pinfo{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
 .pname{font-size:13px}.pname.L{font-weight:700}
-.pstat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.pfamily{font-size:10px;color:#999;display:flex;gap:4px;flex-wrap:wrap}
+.ftag{background:#f0f0f0;color:#666;padding:1px 7px;border-radius:10px;font-size:10px;white-space:nowrap}
+.ftag.spouse{background:#fde8d8;color:#a84300}
+.ftag.kids{background:#e8f4fd;color:#1a5276}
+.pstat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
 .s-done{background:#d4edda;color:#1B5E20}
 .s-part{background:#fff3cd;color:#7d5a00}
 .s-pend{background:#f0f0f0;color:#888}
 .pform{padding:12px;background:#fffaf5;border-top:1px solid #ffe0c0;display:flex;flex-direction:column;gap:8px}
+.fam-banner{background:#fff3e0;border:1px solid #ffe0b2;border-radius:6px;padding:8px 10px;font-size:12px;color:#7c4a00;display:flex;gap:6px;align-items:center}
 .wpair{background:#fff;border:1px solid #f0dece;border-radius:7px;padding:10px}
 .wlabel{font-size:11px;font-weight:700;color:#E67E22;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
 .wsub{font-size:10px;color:#bbb;font-weight:400;text-transform:none;letter-spacing:0}
@@ -56,7 +62,7 @@ body{font-family:Arial,sans-serif;background:#f2f2f2;color:#222}
 .sbtn:hover{background:#A93226}
 .sbtn:disabled{background:#ccc;cursor:not-allowed}
 .who{font-size:10px;color:#bbb;text-align:right;margin-top:5px;font-style:italic}
-.footer-wrap{max-width:620px;margin:0 auto}
+.footer-wrap{max-width:640px;margin:0 auto}
 .refresh-btn{display:block;width:100%;padding:11px;background:#fff;border:none;border-top:1px solid #e8e8e8;font-size:12px;color:#999;cursor:pointer;text-align:center}
 .refresh-btn:hover{color:#C0392B}
 .sumbar{background:#fff;border-top:2px solid #C0392B;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
@@ -94,6 +100,22 @@ const SB_URL='https://emvlygxareqiyxebeipe.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtdmx5Z3hhcmVxaXl4ZWJlaXBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzU2MTUsImV4cCI6MjA5NjAxMTYxNX0.vQEyne4YF5YwkQl2WQeqOmciE-kK2SAehk87cudD7ZI';
 const HEADERS={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
 const MONTHS=["July 2026","August 2026","September 2026","October 2026","November 2026","December 2026"];
+const FAMILY={
+  "Toun":{s:"Opemipo"},"Opemipo":{s:"Toun"},
+  "Rebecca":{s:"Eugenia"},"Eugenia":{s:"Rebecca"},
+  "Marie":{k:3},"Deeksha":{s:"Anil",k:1},"Anil":{s:"Deeksha",k:1},
+  "Lucas":{s:"Wife"},"Maggie":{k:2},"Adeola":{k:3},
+  "Fabio":{s:"Juliana",k:2},"Juliana":{s:"Fabio",k:2},
+  "Saraspandee":{s:"Joanna"},"Joanna":{s:"Saraspandee"},
+  "Miya":{s:"Ria & Sonia"},"Ria":{s:"Miya & Sonia"},"Sonia":{s:"Miya & Ria"},
+  "Ruth":{s:"Mark S."},"Mark S.":{s:"Ruth"},
+  "Bethany":{s:"Tobi"},"Tobi":{s:"Bethany"},
+  "Benita":{s:"Oscar"},"Oscar":{s:"Benita"},
+  "Charis":{s:"Husband"},"Felipe":{s:"Wife"},
+  "Daniel":{s:"Amanda"},"Jillian":{k:1},
+  "Melody":{k:3},"Taruna":{s:"Husband"},
+  "Livia":{k:1}
+};
 const TEAMS={
   "Food & Beverage":{color:"#E65100",bg:"#FFF3E0",leaders:["Davide","Maryanne"],members:["Toun","Rebecca","Renooka","Marie","Deeksha","Lucas","Maggie","Christiana","Adeola","Nishita","Fabio","Maisie"]},
   "Greeters":{color:"#1B5E20",bg:"#F1F8E9",leaders:["Domenico","Roberta"],members:["Eugenia","Paras","Larissa","Opemipo","Reenoka","Caitlin","Patricia","Anna","Angela M.","Saraspandee","Juliana","Inese"]},
@@ -105,46 +127,12 @@ const TEAMS={
   "Ushers":{color:"#311B92",bg:"#EDE7F6",leaders:["Giulia"],members:["Melody","Sonia","Taruna","Livia","Anil","Joanna"]}
 };
 let curMonth=MONTHS[0],openTeam=null,openPerson=null,dbData={};
-async function sbGet(month){
-  const res=await fetch(`${SB_URL}/rest/v1/tracker_entries?month=eq.${encodeURIComponent(month)}&select=*`,{headers:HEADERS});
-  if(!res.ok)throw new Error(await res.text());
-  return res.json();
-}
-async function sbUpsert(row){
-  const res=await fetch(`${SB_URL}/rest/v1/tracker_entries`,{
-    method:'POST',
-    headers:{...HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
-    body:JSON.stringify(row)
-  });
-  if(!res.ok)throw new Error(await res.text());
-}
-async function loadMonth(){
-  document.getElementById('root').innerHTML='<p style="padding:30px;text-align:center;color:#aaa">Loading...</p>';
-  try{
-    const rows=await sbGet(curMonth);
-    dbData={};
-    for(const r of rows)dbData[r.person_name]=r;
-    render();
-  }catch(e){
-    document.getElementById('root').innerHTML=`<p style="padding:20px;color:#C0392B;font-size:13px">Error: ${e.message}</p>`;
-  }
-}
-async function saveEntry(person,weeks){
-  const who=document.getElementById('userName').value.trim()||'Unknown';
-  const row={month:curMonth,person_name:person,week1_date:weeks.d1,week1_guest:weeks.g1,week2_date:weeks.d2,week2_guest:weeks.g2,week3_date:weeks.d3,week3_guest:weeks.g3,week4_date:weeks.d4,week4_guest:weeks.g4,updated_by:who,updated_at:new Date().toISOString()};
-  const btn=document.getElementById('saveBtn');
-  if(btn){btn.disabled=true;btn.textContent='Saving...';}
-  try{
-    await sbUpsert(row);
-    dbData[person]=row;
-    showToast('Saved!');
-    openPerson=null;
-    render();
-  }catch(e){
-    showToast('Save failed: '+e.message,true);
-    if(btn){btn.disabled=false;btn.textContent=`Save ${person}'s record`;}
-  }
-}
+function familyTags(n){const f=FAMILY[n];if(!f)return'';let t='';if(f.s)t+=`<span class="ftag spouse">&#9825; ${f.s}</span>`;if(f.k)t+=`<span class="ftag kids">&#9679; ${f.k} child${f.k>1?'ren':''}</span>`;return t?`<div class="pfamily">${t}</div>`:'';}
+function familyBanner(n){const f=FAMILY[n];if(!f)return'';let txt='';if(f.s&&f.k)txt=`Married to ${f.s} &mdash; ${f.k} child${f.k>1?'ren':''}`;else if(f.s)txt=`Married to ${f.s}`;else if(f.k)txt=`${f.k} child${f.k>1?'ren':''}`;return txt?`<div class="fam-banner">&#128106; ${txt}</div>`:'';}
+async function sbGet(month){const res=await fetch(`${SB_URL}/rest/v1/tracker_entries?month=eq.${encodeURIComponent(month)}&select=*`,{headers:HEADERS});if(!res.ok)throw new Error(await res.text());return res.json();}
+async function sbUpsert(row){const res=await fetch(`${SB_URL}/rest/v1/tracker_entries`,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(row)});if(!res.ok)throw new Error(await res.text());}
+async function loadMonth(){document.getElementById('root').innerHTML='<p style="padding:30px;text-align:center;color:#aaa">Loading...</p>';try{const rows=await sbGet(curMonth);dbData={};for(const r of rows)dbData[r.person_name]=r;render();}catch(e){document.getElementById('root').innerHTML=`<p style="padding:20px;color:#C0392B;font-size:13px">Error: ${e.message}</p>`;}}
+async function saveEntry(person,weeks){const who=document.getElementById('userName').value.trim()||'Unknown';const row={month:curMonth,person_name:person,week1_date:weeks.d1,week1_guest:weeks.g1,week2_date:weeks.d2,week2_guest:weeks.g2,week3_date:weeks.d3,week3_guest:weeks.g3,week4_date:weeks.d4,week4_guest:weeks.g4,updated_by:who,updated_at:new Date().toISOString()};const btn=document.getElementById('saveBtn');if(btn){btn.disabled=true;btn.textContent='Saving...';}try{await sbUpsert(row);dbData[person]=row;showToast('Saved!');openPerson=null;render();}catch(e){showToast('Save failed: '+e.message,true);if(btn){btn.disabled=false;btn.textContent=`Save ${person}'s record`;}}}
 function status(p){const r=dbData[p];if(!r)return'pend';const f=[r.week1_date,r.week2_date,r.week3_date,r.week4_date].filter(Boolean).length;return f===4?'done':f>0?'part':'pend';}
 function stLabel(s){return s==='done'?'&#10003; Done':s==='part'?'~ Partial':'Pending';}
 function stClass(s){return s==='done'?'s-done':s==='part'?'s-part':'s-pend';}
@@ -152,25 +140,21 @@ function totals(){let done=0,total=0;for(const t of Object.values(TEAMS))for(con
 function teamTotals(tn){const all=[...TEAMS[tn].leaders,...TEAMS[tn].members];return{done:all.filter(p=>status(p)==='done').length,total:all.length};}
 function render(){
   document.getElementById('mbar').innerHTML=MONTHS.map(m=>`<button class="mbtn${m===curMonth?' active':''}" onclick="setMonth('${m}')">${m.replace(' 2026','')}</button>`).join('');
-  const{done,total}=totals();
-  document.getElementById('sumCount').textContent=`${done} / ${total} people`;
+  const{done,total}=totals();document.getElementById('sumCount').textContent=`${done} / ${total} people`;
   let h='<div class="teams">';
   for(const[tn,t]of Object.entries(TEAMS)){
-    const{done:td,total:tt}=teamTotals(tn);
-    const isOpen=openTeam===tn;
+    const{done:td,total:tt}=teamTotals(tn);const isOpen=openTeam===tn;
     const all=[...t.leaders.map(n=>({n,r:'L'})),...t.members.map(n=>({n,r:'M'}))];
     h+=`<div class="tcard"><div class="thead" style="background:${t.bg}" onclick="toggleTeam('${tn}')"><span class="tname" style="color:${t.color}">${tn}</span><div class="tmeta"><span class="tprog" style="background:${t.color}22;color:${t.color}">${td}/${tt}</span><span class="chev${isOpen?' open':''}">&#8964;</span></div></div>`;
     if(isOpen){
       h+=`<div class="tbody"><div class="lrow"><span>Leaders:</span>${t.leaders.map(l=>`<span class="lbadge">${l}</span>`).join('')}</div><div class="plist">`;
       for(const{n,r}of all){
         const st=status(n),isSel=openPerson===n,row=dbData[n]||{},safe=n.replace(/'/g,"\\'");
-        h+=`<div class="pitem"><div class="prow${isSel?' sel':''}${st==='done'&&!isSel?' done':''}" onclick="selPerson('${safe}')"><span class="pname ${r}">${n}</span><span class="pstat ${stClass(st)}">${stLabel(st)}</span></div>`;
+        h+=`<div class="pitem"><div class="prow${isSel?' sel':''}${st==='done'&&!isSel?' done':''}" onclick="selPerson('${safe}')"><div class="pinfo"><span class="pname ${r}">${n}</span>${familyTags(n)}</div><span class="pstat ${stClass(st)}">${stLabel(st)}</span></div>`;
         if(isSel){
           const wk=[['Week 1','First half','d1','g1','week1_date','week1_guest'],['Week 2','First half','d2','g2','week2_date','week2_guest'],['Week 3','Second half','d3','g3','week3_date','week3_guest'],['Week 4','Second half','d4','g4','week4_date','week4_guest']];
-          h+=`<div class="pform">`;
-          for(const[label,half,dk,gk,dbdk,dbgk]of wk){
-            h+=`<div class="wpair"><div class="wlabel">${label} <span class="wsub">— ${half} of month</span></div><div class="irow"><label>Date of invitation</label><input type="date" id="${dk}" value="${row[dbdk]||''}"/></div><div class="irow"><label>Guest invited</label><input type="text" id="${gk}" value="${row[dbgk]||''}" placeholder="Who did you invite?"/></div></div>`;
-          }
+          h+=`<div class="pform">${familyBanner(n)}`;
+          for(const[label,half,dk,gk,dbdk,dbgk]of wk){h+=`<div class="wpair"><div class="wlabel">${label} <span class="wsub">— ${half} of month</span></div><div class="irow"><label>Date of invitation</label><input type="date" id="${dk}" value="${row[dbdk]||''}"/></div><div class="irow"><label>Guest invited</label><input type="text" id="${gk}" value="${row[dbgk]||''}" placeholder="Who did you invite?"/></div></div>`;}
           if(row.updated_by)h+=`<div class="who">Last updated by <strong>${row.updated_by}</strong>${row.updated_at?' &middot; '+new Date(row.updated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}</div>`;
           h+=`<button class="sbtn" id="saveBtn" onclick="savePerson('${safe}')">Save ${n}&rsquo;s record</button></div>`;
         }
@@ -180,8 +164,7 @@ function render(){
     }
     h+=`</div>`;
   }
-  h+=`</div>`;
-  document.getElementById('root').innerHTML=h;
+  h+=`</div>`;document.getElementById('root').innerHTML=h;
 }
 function setMonth(m){curMonth=m;openTeam=null;openPerson=null;loadMonth();}
 function toggleTeam(t){openTeam=openTeam===t?null:t;openPerson=null;render();}
