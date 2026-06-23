@@ -1,179 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Living Church — Dream Team Tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Living Church – Hosting Rotation</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f2f2f2;color:#222}
-.hdr{background:#C0392B;color:#fff;padding:16px;text-align:center}
-.hdr h1{font-size:16px;font-weight:700}
-.hdr p{font-size:11px;opacity:.82;margin-top:3px}
-.live-dot{display:inline-flex;align-items:center;gap:5px;background:#27AE60;color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;margin-top:6px}
-.live-dot span{width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.month-bar{display:flex;overflow-x:auto;background:#96281B;padding:0 8px;gap:4px;scrollbar-width:none}
-.month-bar::-webkit-scrollbar{display:none}
-.mbtn{flex-shrink:0;padding:9px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.6);border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
-.mbtn.active{color:#fff;border-bottom-color:#E67E22}
-.name-wrap{background:#fff;border-bottom:1px solid #eee}
-.name-bar{background:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px;max-width:640px;margin:0 auto;width:100%}
-.name-bar label{font-size:12px;color:#666;font-weight:600;white-space:nowrap}
-.name-bar input{flex:1;padding:7px 10px;border:1.5px solid #E67E22;border-radius:6px;font-size:13px}
-.teams{padding:10px 12px;max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
-.tcard{border-radius:8px;overflow:hidden;border:1px solid #ddd;background:#fff}
-.thead{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none}
-.tname{font-size:13px;font-weight:700}
-.tmeta{display:flex;align-items:center;gap:8px}
-.tprog{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
-.chev{font-size:18px;transition:transform .2s}
-.chev.open{transform:rotate(180deg)}
-.tbody{border-top:1px solid #eee}
-.lrow{padding:7px 14px;font-size:11px;color:#777;background:#fafafa;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-weight:600;border-bottom:1px solid #eee}
-.lbadge{background:#E67E22;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.plist{padding:8px 12px;display:flex;flex-direction:column;gap:4px}
-.pitem{border-radius:6px;border:1px solid #eee;overflow:hidden}
-.prow{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;cursor:pointer;background:#fff;transition:background .15s;gap:8px}
-.prow:hover{background:#fff8f5}
-.prow.sel{background:#fff3e8}
-.prow.done{background:#f0faf3}
-.pinfo{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
-.pname{font-size:13px}.pname.L{font-weight:700}
-.pfamily{font-size:10px;color:#999;display:flex;gap:4px;flex-wrap:wrap}
-.ftag{background:#f0f0f0;color:#666;padding:1px 7px;border-radius:10px;font-size:10px;white-space:nowrap}
-.ftag.spouse{background:#fde8d8;color:#a84300}
-.ftag.kids{background:#e8f4fd;color:#1a5276}
-.pstat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
-.s-done{background:#d4edda;color:#1B5E20}
-.s-part{background:#fff3cd;color:#7d5a00}
-.s-pend{background:#f0f0f0;color:#888}
-.pform{padding:12px;background:#fffaf5;border-top:1px solid #ffe0c0;display:flex;flex-direction:column;gap:8px}
-.fam-banner{background:#fff3e0;border:1px solid #ffe0b2;border-radius:6px;padding:8px 10px;font-size:12px;color:#7c4a00;display:flex;gap:6px;align-items:center}
-.wpair{background:#fff;border:1px solid #f0dece;border-radius:7px;padding:10px}
-.wlabel{font-size:11px;font-weight:700;color:#E67E22;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
-.wsub{font-size:10px;color:#bbb;font-weight:400;text-transform:none;letter-spacing:0}
-.irow{display:flex;flex-direction:column;gap:3px;margin-bottom:7px}
-.irow:last-child{margin-bottom:0}
-.irow label{font-size:11px;color:#666}
-.irow input{padding:7px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px;width:100%}
-.irow input:focus{outline:none;border-color:#E67E22;box-shadow:0 0 0 2px rgba(230,126,34,.12)}
-.sbtn{background:#C0392B;color:#fff;border:none;padding:10px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;width:100%;margin-top:2px}
-.sbtn:hover{background:#A93226}
-.sbtn:disabled{background:#ccc;cursor:not-allowed}
-.who{font-size:10px;color:#bbb;text-align:right;margin-top:5px;font-style:italic}
-.footer-wrap{max-width:640px;margin:0 auto}
-.refresh-btn{display:block;width:100%;padding:11px;background:#fff;border:none;border-top:1px solid #e8e8e8;font-size:12px;color:#999;cursor:pointer;text-align:center}
-.refresh-btn:hover{color:#C0392B}
-.sumbar{background:#fff;border-top:2px solid #C0392B;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.sumtxt{font-size:12px;color:#666}
-.sumct{font-size:14px;font-weight:700;color:#C0392B}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#27AE60;color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
-.toast.show{opacity:1}
-.toast.err{background:#C0392B}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f0ed; color: #1a1a1a; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #d85a30, #e8845e); padding: 1.25rem 1rem 1rem; color: #fff; }
+.header h1 { font-size: 20px; font-weight: 700; }
+.header p { font-size: 13px; opacity: .85; margin-top: 3px; }
+.main { max-width: 600px; margin: 0 auto; padding: 1rem; }
+.slabel { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.team-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+.pill { padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid #ddd; background: #fff; color: #666; user-select: none; }
+.pill.on { background: #faece7; color: #993c1d; border-color: #d85a30; font-weight: 700; }
+.tcard { background: #faece7; border-radius: 12px; padding: 12px 16px; margin-bottom: 1rem; }
+.tcard-name { font-size: 17px; font-weight: 700; color: #993c1d; }
+.tcard-sub { font-size: 13px; color: #633806; margin-top: 3px; }
+.tcard-badge { display: inline-block; font-size: 12px; background: #f5c4b3; color: #993c1d; border-radius: 20px; padding: 3px 12px; margin-top: 8px; font-weight: 600; }
+.reorder-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 1rem; border: 1px solid #eee; }
+.reorder-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.reorder-title { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+.reorder-hint { font-size: 12px; color: #bbb; }
+.order-list { display: flex; flex-direction: column; gap: 6px; user-select: none; }
+.order-item { display: flex; align-items: center; gap: 10px; background: #fafafa; border: 1.5px solid #eee; border-radius: 10px; padding: 10px 12px; transition: border-color .15s, box-shadow .15s; cursor: default; }
+.order-item.dragging-over { border-color: #d85a30; background: #faece7; }
+.drag-handle { font-size: 20px; color: #ccc; cursor: grab; padding: 4px 6px; touch-action: none; line-height: 1; flex-shrink: 0; }
+.drag-handle:active { cursor: grabbing; color: #d85a30; }
+.order-name { font-size: 14px; font-weight: 500; color: #1a1a1a; line-height: 1.4; }
+.order-sub { font-size: 11px; color: #bbb; margin-top: 2px; }
+.order-cnt { font-size: 11px; background: #f0f0f0; color: #888; border-radius: 8px; padding: 2px 8px; white-space: nowrap; font-weight: 500; margin-left: auto; flex-shrink: 0; }
+.drag-ghost { position: fixed; z-index: 9999; pointer-events: none; opacity: .92; box-shadow: 0 8px 30px rgba(0,0,0,.18); border-radius: 10px; border: 1.5px solid #d85a30; background: #fff; }
+.ctrl-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 1rem; border: 1px solid #eee; }
+.ctrl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.fld { display: flex; flex-direction: column; gap: 5px; }
+.fld label { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: .05em; }
+select { padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fafafa; color: #1a1a1a; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+.genbtn { width: 100%; padding: 13px; border-radius: 10px; border: none; background: #d85a30; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; }
+.genbtn:active { background: #993c1d; }
+.cinfo { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 10px 14px; margin-bottom: 1rem; font-size: 13px; color: #555; line-height: 1.5; }
+.cinfo strong { color: #1a1a1a; }
+.warn { font-size: 12px; color: #854f0b; background: #faeeda; border-radius: 8px; padding: 8px 12px; margin-bottom: 1rem; line-height: 1.5; }
+.mblock { background: #fff; border-radius: 12px; margin-bottom: .85rem; overflow: hidden; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+.mhead { background: #f8f6f4; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; }
+.mname { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+.mprog { font-size: 12px; color: #993c1d; background: #f5c4b3; border-radius: 20px; padding: 3px 12px; font-weight: 600; }
+.gcol { padding: 12px 14px; }
+.gcol + .gcol { border-top: 1px solid #eee; }
+.glabel { font-size: 12px; font-weight: 700; color: #d85a30; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+.mrow { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f5f5f5; }
+.mrow:last-child { border-bottom: none; }
+.mrow input[type=checkbox] { width: 20px; height: 20px; accent-color: #d85a30; cursor: pointer; flex-shrink: 0; margin-top: 2px; }
+.mrow.done .rname { text-decoration: line-through; color: #bbb; }
+.mrow.done .rsub { text-decoration: line-through; }
+.rname { font-size: 15px; color: #1a1a1a; line-height: 1.4; font-weight: 500; }
+.rsub { font-size: 12px; color: #aaa; margin-top: 2px; }
+.rcnt { font-size: 11px; background: #f3f3f3; color: #888; border-radius: 8px; padding: 3px 9px; margin-left: auto; flex-shrink: 0; white-space: nowrap; margin-top: 3px; font-weight: 500; }
+.gfoot { font-size: 12px; color: #bbb; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f5f5f5; }
+.rest { font-size: 13px; color: #ccc; padding: 6px 0; font-style: italic; }
+.empty { text-align: center; padding: 2.5rem 1rem; color: #bbb; font-size: 14px; line-height: 1.6; }
+.footer { text-align: center; padding: 2rem 1rem; font-size: 12px; color: #ccc; }
 </style>
 </head>
 <body>
-<div class="hdr">
-  <h1>Living Church — Dream Team Tracker</h1>
-  <p>Log home invitations for your team each month</p>
-  <div class="live-dot"><span></span>LIVE — shared with your whole team</div>
+<div class="header">
+  <h1>🏠 Hosting Rotation</h1>
+  <p>Living Church – Dream Team · 2 gatherings per month</p>
 </div>
-<div class="month-bar" id="mbar"></div>
-<div class="name-wrap">
-  <div class="name-bar">
-    <label>Your name:</label>
-    <input type="text" id="userName" placeholder="Enter your name before saving..." oninput="saveName()"/>
+<div class="main">
+  <div class="slabel">Your team</div>
+  <div class="team-bar" id="teamBar"></div>
+  <div id="teamInfo"></div>
+  <div class="reorder-card">
+    <div class="reorder-top">
+      <div class="reorder-title">📋 Invitation order</div>
+      <div class="reorder-hint">Hold ⠿ and drag to reorder</div>
+    </div>
+    <div class="order-list" id="orderList"></div>
   </div>
-</div>
-<div id="root"><p style="padding:30px;text-align:center;color:#aaa">Loading...</p></div>
-<div class="footer-wrap">
-  <button class="refresh-btn" onclick="loadMonth()">&#8635;&nbsp; Refresh — see latest updates from your team</button>
-  <div class="sumbar">
-    <span class="sumtxt">Completed this month</span>
-    <span class="sumct" id="sumCount">— / —</span>
+  <div class="ctrl-card">
+    <div class="ctrl-grid">
+      <div class="fld">
+        <label for="mp">Max people</label>
+        <select id="mp">
+          <option value="4">4 max</option>
+          <option value="5" selected>5 max</option>
+          <option value="6">6 max</option>
+          <option value="8">8 max</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label for="sm">Start month</label>
+        <select id="sm"></select>
+      </div>
+      <div class="fld">
+        <label for="nm">Months to show</label>
+        <select id="nm">
+          <option value="3">3 months</option>
+          <option value="6" selected>6 months</option>
+          <option value="12">Full year</option>
+        </select>
+      </div>
+    </div>
+    <button class="genbtn" onclick="gen()">▶ Generate my schedule</button>
   </div>
+  <div id="cycleInfo"></div>
+  <div id="output"><div class="empty">Drag to set your order<br>then tap <strong>Generate my schedule</strong></div></div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="footer">Living Church Dream Team © 2026</div>
 <script>
-const SB_URL='https://emvlygxareqiyxebeipe.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtdmx5Z3hhcmVxaXl4ZWJlaXBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzU2MTUsImV4cCI6MjA5NjAxMTYxNX0.vQEyne4YF5YwkQl2WQeqOmciE-kK2SAehk87cudD7ZI';
-const HEADERS={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
-const MONTHS=["July 2026","August 2026","September 2026","October 2026","November 2026","December 2026"];
-const FAMILY={
-  "Toun":{s:"Opemipo"},"Opemipo":{s:"Toun"},
-  "Rebecca":{s:"Eugenia"},"Eugenia":{s:"Rebecca"},
-  "Marie":{k:3},"Deeksha":{s:"Anil",k:1},"Anil":{s:"Deeksha",k:1},
-  "Lucas":{s:"Wife"},"Maggie":{k:2},"Adeola":{k:3},
-  "Fabio":{s:"Juliana",k:2},"Juliana":{s:"Fabio",k:2},
-  "Saraspandee":{s:"Joanna"},"Joanna":{s:"Saraspandee"},
-  "Miya":{s:"Ria & Sonia"},"Ria":{s:"Miya & Sonia"},"Sonia":{s:"Miya & Ria"},
-  "Ruth":{s:"Mark S."},"Mark S.":{s:"Ruth"},
-  "Bethany":{s:"Tobi"},"Tobi":{s:"Bethany"},
-  "Benita":{s:"Oscar"},"Oscar":{s:"Benita"},
-  "Charis":{s:"Husband"},"Felipe":{s:"Wife"},
-  "Daniel":{s:"Amanda"},"Jillian":{k:1},
-  "Melody":{k:3},"Taruna":{s:"Husband"},
-  "Livia":{k:1}
+var MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var TEAMS = {
+  "Food & Beverage": { l:["Davide","Maryanne"], m:[
+    {k:"FJ", n:"Fabio & Juliana",      s:"+ 2 children",   p:4},
+    {k:"Ma", n:"Marie",                s:"+ 3 children",   p:4},
+    {k:"Mg", n:"Maggie",               s:"+ 2 children",   p:3},
+    {k:"Ad", n:"Adeola",               s:"+ 3 children",   p:4},
+    {k:"Lu", n:"Lucas & wife",         s:"",               p:2},
+    {k:"Re", n:"Reenoka",              s:"",               p:1},
+    {k:"Ch", n:"Christiana",           s:"",               p:1},
+    {k:"Ni", n:"Nishita",              s:"",               p:1},
+    {k:"Ms", n:"Maisie",               s:"",               p:1}
+  ]},
+  "Greeters": { l:["Domenico","Roberta"], m:[
+    {k:"OT", n:"Opemipo & Toun",       s:"",               p:2},
+    {k:"SJ", n:"Saraspandee & Joanna", s:"",               p:2},
+    {k:"ER", n:"Eugenia & Rebecca",    s:"",               p:2},
+    {k:"La", n:"Larissa",              s:"",               p:1},
+    {k:"Pa", n:"Paras",                s:"",               p:1},
+    {k:"Rn", n:"Reenoka",              s:"",               p:1},
+    {k:"Ca", n:"Caitlin",              s:"",               p:1},
+    {k:"Pt", n:"Patricia",             s:"",               p:1},
+    {k:"An", n:"Anna",                 s:"",               p:1},
+    {k:"AM", n:"Angela M.",            s:"",               p:1},
+    {k:"Ju", n:"Juliana",              s:"",               p:1},
+    {k:"In", n:"Inese",                s:"",               p:1}
+  ]},
+  "Info Point": { l:["Quinette"], m:[
+    {k:"Mi", n:"Miya",                 s:"",               p:1}
+  ]},
+  "Living Kids": { l:["Veronica","Pietro","Angela S."], m:[
+    {k:"BT", n:"Bethany & Tobi",       s:"",               p:2},
+    {k:"BO", n:"Benita & Oscar",       s:"",               p:2},
+    {k:"RM", n:"Ruth & Mark S.",       s:"",               p:2},
+    {k:"Cr", n:"Charis & husband",     s:"",               p:2},
+    {k:"Ri", n:"Ria",                  s:"",               p:1},
+    {k:"Sm", n:"Smitha",               s:"",               p:1},
+    {k:"Ir", n:"Irish",                s:"",               p:1},
+    {k:"SS", n:"Sarah S.",             s:"",               p:1},
+    {k:"Ar", n:"Arpana",               s:"",               p:1}
+  ]},
+  "Media Team": { l:["Tito","Marco"], m:[
+    {k:"DA", n:"Daniel & Amanda",      s:"Amanda not serving", p:2},
+    {k:"Fe", n:"Felipe & wife",        s:"",               p:2},
+    {k:"Pr", n:"Prashani",             s:"",               p:1},
+    {k:"To", n:"Toby",                 s:"",               p:1},
+    {k:"En", n:"Enyo",                 s:"",               p:1},
+    {k:"Ji", n:"Jillian",              s:"+ 1 child",      p:2}
+  ]},
+  "Parking Team": { l:["Shawn"], m:[
+    {k:"Tb", n:"Tobi",                 s:"",               p:1},
+    {k:"Es", n:"Esther",               s:"",               p:1}
+  ]},
+  "Tech Team": { l:["Antonino"], m:[
+    {k:"Mk", n:"Mark",                 s:"",               p:1},
+    {k:"Em", n:"Emmanuel",             s:"",               p:1}
+  ]},
+  "Ushers": { l:["Giulia"], m:[
+    {k:"AD", n:"Anil & Deeksha",       s:"+ 1 child",      p:3},
+    {k:"Tr", n:"Taruna & husband",     s:"",               p:2},
+    {k:"Me", n:"Melody",               s:"+ 3 children",   p:4},
+    {k:"Li", n:"Livia",                s:"+ 1 child",      p:2},
+    {k:"So", n:"Sonia",                s:"",               p:1},
+    {k:"Jo", n:"Joanna",               s:"",               p:1}
+  ]}
 };
-const TEAMS={
-  "Food & Beverage":{color:"#E65100",bg:"#FFF3E0",leaders:["Davide","Maryanne"],members:["Toun","Rebecca","Renooka","Marie","Deeksha","Lucas","Maggie","Christiana","Adeola","Nishita","Fabio","Maisie"]},
-  "Greeters":{color:"#1B5E20",bg:"#F1F8E9",leaders:["Domenico","Roberta"],members:["Eugenia","Paras","Larissa","Opemipo","Reenoka","Caitlin","Patricia","Anna","Angela M.","Saraspandee","Juliana","Inese"]},
-  "Info Point":{color:"#0D47A1",bg:"#E3F2FD",leaders:["Quinette"],members:["Miya"]},
-  "Living Kids":{color:"#BF360C",bg:"#FBE9E7",leaders:["Veronica","Pietro","Angela S."],members:["Ria","Ruth","Benita","Bethany","Charis","Smitha","Irish","Sarah S.","Arpana"]},
-  "Media Team":{color:"#4A148C",bg:"#F3E5F5",leaders:["Tito","Marco"],members:["Prashani","Felipe","Daniel","Toby","Mark S.","Oscar","Enyo","Jillian"]},
-  "Parking Team":{color:"#006064",bg:"#E0F7FA",leaders:["Shawn"],members:["Tobi","Esther"]},
-  "Tech Team":{color:"#4E342E",bg:"#EFEBE9",leaders:["Antonino"],members:["Mark","Emmanuel"]},
-  "Ushers":{color:"#311B92",bg:"#EDE7F6",leaders:["Giulia"],members:["Melody","Sonia","Taruna","Livia","Anil","Joanna"]}
-};
-let curMonth=MONTHS[0],openTeam=null,openPerson=null,dbData={};
-function familyTags(n){const f=FAMILY[n];if(!f)return'';let t='';if(f.s)t+=`<span class="ftag spouse">&#9825; ${f.s}</span>`;if(f.k)t+=`<span class="ftag kids">&#9679; ${f.k} child${f.k>1?'ren':''}</span>`;return t?`<div class="pfamily">${t}</div>`:'';}
-function familyBanner(n){const f=FAMILY[n];if(!f)return'';let txt='';if(f.s&&f.k)txt=`Married to ${f.s} &mdash; ${f.k} child${f.k>1?'ren':''}`;else if(f.s)txt=`Married to ${f.s}`;else if(f.k)txt=`${f.k} child${f.k>1?'ren':''}`;return txt?`<div class="fam-banner">&#128106; ${txt}</div>`:'';}
-async function sbGet(month){const res=await fetch(`${SB_URL}/rest/v1/tracker_entries?month=eq.${encodeURIComponent(month)}&select=*`,{headers:HEADERS});if(!res.ok)throw new Error(await res.text());return res.json();}
-async function sbUpsert(row){const res=await fetch(`${SB_URL}/rest/v1/tracker_entries`,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(row)});if(!res.ok)throw new Error(await res.text());}
-async function loadMonth(){document.getElementById('root').innerHTML='<p style="padding:30px;text-align:center;color:#aaa">Loading...</p>';try{const rows=await sbGet(curMonth);dbData={};for(const r of rows)dbData[r.person_name]=r;render();}catch(e){document.getElementById('root').innerHTML=`<p style="padding:20px;color:#C0392B;font-size:13px">Error: ${e.message}</p>`;}}
-async function saveEntry(person,weeks){const who=document.getElementById('userName').value.trim()||'Unknown';const row={month:curMonth,person_name:person,week1_date:weeks.d1,week1_guest:weeks.g1,week2_date:weeks.d2,week2_guest:weeks.g2,week3_date:weeks.d3,week3_guest:weeks.g3,week4_date:weeks.d4,week4_guest:weeks.g4,updated_by:who,updated_at:new Date().toISOString()};const btn=document.getElementById('saveBtn');if(btn){btn.disabled=true;btn.textContent='Saving...';}try{await sbUpsert(row);dbData[person]=row;showToast('Saved!');openPerson=null;render();}catch(e){showToast('Save failed: '+e.message,true);if(btn){btn.disabled=false;btn.textContent=`Save ${person}'s record`;}}}
-function status(p){const r=dbData[p];if(!r)return'pend';const f=[r.week1_date,r.week2_date,r.week3_date,r.week4_date].filter(Boolean).length;return f===4?'done':f>0?'part':'pend';}
-function stLabel(s){return s==='done'?'&#10003; Done':s==='part'?'~ Partial':'Pending';}
-function stClass(s){return s==='done'?'s-done':s==='part'?'s-part':'s-pend';}
-function totals(){let done=0,total=0;for(const t of Object.values(TEAMS))for(const p of[...t.leaders,...t.members]){total++;if(status(p)==='done')done++;}return{done,total};}
-function teamTotals(tn){const all=[...TEAMS[tn].leaders,...TEAMS[tn].members];return{done:all.filter(p=>status(p)==='done').length,total:all.length};}
-function render(){
-  document.getElementById('mbar').innerHTML=MONTHS.map(m=>`<button class="mbtn${m===curMonth?' active':''}" onclick="setMonth('${m}')">${m.replace(' 2026','')}</button>`).join('');
-  const{done,total}=totals();document.getElementById('sumCount').textContent=`${done} / ${total} people`;
-  let h='<div class="teams">';
-  for(const[tn,t]of Object.entries(TEAMS)){
-    const{done:td,total:tt}=teamTotals(tn);const isOpen=openTeam===tn;
-    const all=[...t.leaders.map(n=>({n,r:'L'})),...t.members.map(n=>({n,r:'M'}))];
-    h+=`<div class="tcard"><div class="thead" style="background:${t.bg}" onclick="toggleTeam('${tn}')"><span class="tname" style="color:${t.color}">${tn}</span><div class="tmeta"><span class="tprog" style="background:${t.color}22;color:${t.color}">${td}/${tt}</span><span class="chev${isOpen?' open':''}">&#8964;</span></div></div>`;
-    if(isOpen){
-      h+=`<div class="tbody"><div class="lrow"><span>Leaders:</span>${t.leaders.map(l=>`<span class="lbadge">${l}</span>`).join('')}</div><div class="plist">`;
-      for(const{n,r}of all){
-        const st=status(n),isSel=openPerson===n,row=dbData[n]||{},safe=n.replace(/'/g,"\\'");
-        h+=`<div class="pitem"><div class="prow${isSel?' sel':''}${st==='done'&&!isSel?' done':''}" onclick="selPerson('${safe}')"><div class="pinfo"><span class="pname ${r}">${n}</span>${familyTags(n)}</div><span class="pstat ${stClass(st)}">${stLabel(st)}</span></div>`;
-        if(isSel){
-          const wk=[['Week 1','First half','d1','g1','week1_date','week1_guest'],['Week 2','First half','d2','g2','week2_date','week2_guest'],['Week 3','Second half','d3','g3','week3_date','week3_guest'],['Week 4','Second half','d4','g4','week4_date','week4_guest']];
-          h+=`<div class="pform">${familyBanner(n)}`;
-          for(const[label,half,dk,gk,dbdk,dbgk]of wk){h+=`<div class="wpair"><div class="wlabel">${label} <span class="wsub">— ${half} of month</span></div><div class="irow"><label>Date of invitation</label><input type="date" id="${dk}" value="${row[dbdk]||''}"/></div><div class="irow"><label>Guest invited</label><input type="text" id="${gk}" value="${row[dbgk]||''}" placeholder="Who did you invite?"/></div></div>`;}
-          if(row.updated_by)h+=`<div class="who">Last updated by <strong>${row.updated_by}</strong>${row.updated_at?' &middot; '+new Date(row.updated_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}</div>`;
-          h+=`<button class="sbtn" id="saveBtn" onclick="savePerson('${safe}')">Save ${n}&rsquo;s record</button></div>`;
-        }
-        h+=`</div>`;
-      }
-      h+=`</div></div>`;
-    }
-    h+=`</div>`;
-  }
-  h+=`</div>`;document.getElementById('root').innerHTML=h;
+var orders = {};
+Object.keys(TEAMS).forEach(function(t){ orders[t] = TEAMS[t].m.slice(); });
+var at = "Food & Beverage", chk = {};
+var smEl = document.getElementById('sm');
+MN.forEach(function(m,i){ var o=document.createElement('option'); o.value=i; o.textContent=m; if(i===new Date().getMonth())o.selected=true; smEl.appendChild(o); });
+function buildBar(){
+  document.getElementById('teamBar').innerHTML = Object.keys(TEAMS).map(function(n){
+    return '<div class="pill'+(n===at?' on':'')+'" onclick="sel(\''+n.replace(/'/g,"\\'")+'\')">' + n + '</div>';
+  }).join('');
 }
-function setMonth(m){curMonth=m;openTeam=null;openPerson=null;loadMonth();}
-function toggleTeam(t){openTeam=openTeam===t?null:t;openPerson=null;render();}
-function selPerson(p){openPerson=openPerson===p?null:p;render();}
-function savePerson(p){const w={};for(let i=1;i<=4;i++){w['d'+i]=document.getElementById('d'+i)?.value||'';w['g'+i]=document.getElementById('g'+i)?.value||'';}saveEntry(p,w);}
-function saveName(){try{localStorage.setItem('lc_name',document.getElementById('userName').value);}catch(e){}}
-function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(isErr?' err':'');setTimeout(()=>{t.className='toast';},2500);}
-try{const n=localStorage.getItem('lc_name');if(n)document.getElementById('userName').value=n;}catch(e){}
-loadMonth();
+function buildInfo(){
+  var t=TEAMS[at], tot=orders[at].reduce(function(s,m){return s+m.p;},0);
+  document.getElementById('teamInfo').innerHTML='<div class="tcard"><div class="tcard-name">'+at+'</div><div class="tcard-sub">Supervisors: '+t.l.join(' · ')+'</div><div><span class="tcard-badge">'+orders[at].length+' households · '+tot+' people total</span></div></div>';
+}
+function sel(n){ at=n; buildBar(); buildInfo(); buildOrderList(); document.getElementById('output').innerHTML='<div class="empty">Drag to set your order then tap <strong>Generate</strong>.</div>'; document.getElementById('cycleInfo').innerHTML=''; }
+buildBar(); buildInfo();
+var dg = { active:false, fromIdx:-1, toIdx:-1, ghost:null, startY:0, ghostTop:0, itemH:60 };
+function buildOrderList(){
+  var list = orders[at];
+  var html = list.map(function(m, i){
+    return '<div class="order-item" data-idx="'+i+'">' +
+      '<div class="drag-handle" data-idx="'+i+'">⠿</div>' +
+      '<div style="flex:1"><div class="order-name">'+m.n+'</div>'+(m.s?'<div class="order-sub">'+m.s+'</div>':'')+' </div>' +
+      (m.p>1?'<span class="order-cnt">'+m.p+' people</span>':'')+
+    '</div>';
+  }).join('');
+  document.getElementById('orderList').innerHTML = html;
+  document.querySelectorAll('.drag-handle').forEach(function(h){
+    h.addEventListener('mousedown', function(e){ e.preventDefault(); startDrag(parseInt(h.dataset.idx), e.clientY); });
+    h.addEventListener('touchstart', function(e){ e.preventDefault(); startDrag(parseInt(h.dataset.idx), e.touches[0].clientY); }, {passive:false});
+  });
+}
+function startDrag(idx, clientY){
+  dg.active=true; dg.fromIdx=idx; dg.toIdx=idx; dg.startY=clientY;
+  var items=document.querySelectorAll('.order-item');
+  var rect=items[idx].getBoundingClientRect();
+  dg.ghostTop=rect.top; dg.itemH=rect.height+6;
+  dg.ghost=items[idx].cloneNode(true);
+  dg.ghost.className='order-item drag-ghost';
+  dg.ghost.style.top=rect.top+'px'; dg.ghost.style.left=rect.left+'px'; dg.ghost.style.width=rect.width+'px';
+  document.body.appendChild(dg.ghost);
+  items[idx].style.opacity='0.25';
+  document.addEventListener('mousemove',onDragMove); document.addEventListener('mouseup',onDragEnd);
+  document.addEventListener('touchmove',onDragMove,{passive:false}); document.addEventListener('touchend',onDragEnd);
+}
+function onDragMove(e){
+  if(!dg.active)return; e.preventDefault();
+  var clientY=e.touches?e.touches[0].clientY:e.clientY;
+  var dy=clientY-dg.startY;
+  dg.ghost.style.top=(dg.ghostTop+dy)+'px';
+  var newIdx=Math.round(dg.fromIdx+dy/dg.itemH);
+  newIdx=Math.max(0,Math.min(orders[at].length-1,newIdx));
+  if(newIdx!==dg.toIdx){
+    var old=document.querySelectorAll('.order-item')[dg.toIdx]; if(old)old.classList.remove('dragging-over');
+    dg.toIdx=newIdx;
+    var cur=document.querySelectorAll('.order-item')[newIdx]; if(cur)cur.classList.add('dragging-over');
+  }
+}
+function onDragEnd(e){
+  if(!dg.active)return;
+  document.removeEventListener('mousemove',onDragMove); document.removeEventListener('mouseup',onDragEnd);
+  document.removeEventListener('touchmove',onDragMove); document.removeEventListener('touchend',onDragEnd);
+  if(dg.fromIdx!==dg.toIdx){ var list=orders[at]; var moved=list.splice(dg.fromIdx,1)[0]; list.splice(dg.toIdx,0,moved); }
+  document.body.removeChild(dg.ghost); dg.active=false;
+  buildOrderList();
+  document.getElementById('output').innerHTML='<div class="empty">Order updated — tap <strong>Generate</strong> to refresh.</div>';
+  document.getElementById('cycleInfo').innerHTML='';
+}
+buildOrderList();
+function makeGroups(members,max){ var gs=[],cur=[],sz=0; members.forEach(function(m){ if(sz>0&&sz+m.p>max){gs.push(cur);cur=[];sz=0;} cur.push(m);sz+=m.p; }); if(cur.length)gs.push(cur); return gs; }
+function hcLabel(g){ var t=g.reduce(function(s,m){return s+m.p;},0); return '~'+t+' '+(t===1?'person':'people')+' expected'; }
+function mrow(m,mk){ var rk=mk+'__'+m.k; return '<div class="mrow" id="r'+rk+'"><input type="checkbox" data-mk="'+mk+'" onchange="tog(\''+rk+'\')"><div style="flex:1"><div class="rname">'+m.n+'</div>'+(m.s?'<div class="rsub">'+m.s+'</div>':'')+' </div>'+(m.p>1?'<span class="rcnt">'+m.p+' people</span>':'')+' </div>'; }
+function tog(k){ chk[k]=!chk[k]; var r=document.getElementById('r'+k); if(r)r.classList.toggle('done',chk[k]); var mk=k.split('__')[0],p=document.getElementById('pp'+mk); if(!p)return; var all=document.querySelectorAll('[data-mk="'+mk+'"]'); var done=[].filter.call(all,function(c){return c.checked;}).length; p.textContent=done+' / '+all.length+' invited'; }
+function gen(){
+  var max=parseInt(document.getElementById('mp').value);
+  var start=parseInt(document.getElementById('sm').value);
+  var nm=parseInt(document.getElementById('nm').value);
+  var gs=makeGroups(orders[at],max);
+  var cm=Math.ceil(gs.length/2);
+  var over=gs.filter(function(g){return g.reduce(function(s,m){return s+m.p;},0)>max;});
+  document.getElementById('cycleInfo').innerHTML='<div class="cinfo">📋 <strong>'+gs.length+' gatherings</strong> needed — everyone visited every <strong>'+cm+' month'+(cm>1?'s':'')+'</strong></div>'+(over.length?'<div class="warn">⚠️ '+over.length+' gathering'+(over.length>1?'s':'')+' slightly exceeds the limit because one household alone is larger than '+max+' people.</div>':'');
+  var html='';
+  for(var i=0;i<nm;i++){
+    var mi=(start+i)%12,mk=at.replace(/\W/g,'')+i;
+    var g1=gs[(i*2)%gs.length],g2=gs.length>1?gs[(i*2+1)%gs.length]:null;
+    var total=g1.length+(g2?g2.length:0);
+    html+='<div class="mblock"><div class="mhead"><span class="mname">📅 '+MN[mi]+'</span><span class="mprog" id="pp'+mk+'">0 / '+total+' invited</span></div><div class="gcol"><div class="glabel">🏠 Gathering 1</div>'+g1.map(function(m){return mrow(m,mk);}).join('')+'<div class="gfoot">'+hcLabel(g1)+'</div></div><div class="gcol"><div class="glabel">🏠 Gathering 2</div>'+(g2?g2.map(function(m){return mrow(m,mk);}).join('')+'<div class="gfoot">'+hcLabel(g2)+'</div>':'<div class="rest">Rest / catch-up week</div>')+'</div></div>';
+  }
+  document.getElementById('output').innerHTML=html;
+}
 </script>
 </body>
 </html>
